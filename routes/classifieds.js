@@ -49,18 +49,23 @@ router.post('/', (req,res, next) => {
 });
 
 
-// router.patch('/:id/', (req, res, next) => {
-//   const { title, description, price, item_image } = req.body;
-//   const newPost = { title, description, price, item_image };
-//   knex('classifieds')
-//     .where('id', req.params.id)
-//     .update(newPost, '*')
-//     .then((result) => {
-//       delete result[0].created_at;
-//       delete result[0].updated_at;
-//       res.send(result[0]);
-//     });
-// });
+router.patch('/:id', (req, res, next) => {
+  knex('classifieds')
+  .update({
+    title: req.body.title,
+    description: req.body.description,
+    price: req.body.price,
+    item_image: req.body.item_image,
+  }, ['id', 'title', 'description', 'price', 'item_image'])
+  .where({id: req.params.id})
+  .then((result) => {
+    res.send(result[0]);
+  })
+  .catch((err)=>{
+    res.send(err);
+  });
+});
+
 
 router.delete('/:id/', (req, res, next) => {
   knex('classifieds')

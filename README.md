@@ -1,7 +1,7 @@
 # Galvanize Classified - Part 1
 
 
-## Read the entire README before beginning. Commit often.
+### Deployed Link: https://galvanize-classifieds-part1.herokuapp.com/
 
 
 ## Project Description

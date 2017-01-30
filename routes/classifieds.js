@@ -32,69 +32,35 @@ router.get('/:id', (req, res, next) => {
   });
 });
 
-// router.post('/', (req, res, next) => {
-//   let newTitle = req.body.title;
-//   let newDesc = req.body.description;
-//   let newPrice = req.body.price;
-//   let newImg = req.body.item_image;
-//
-//   knex('classifieds')
-//   .insert({
-//       title: newTitle,
-//       description: newDesc,
-//       price: newPrice,
-//       item_image: newImg
-//   })
-//   .then(() => {
-//       res.send(200, {title: newTitle, description: newDesc, price: newPrice, item_image: newImg});
-//     })
-//     .catch((err) => {
-//       next(err);
-//     });
-//   });
+router.post('/', (req,res, next) => {
+  knex('classifieds')
+    .insert({
+      title: req.body.title,
+      description: req.body.description,
+      price: req.body.price,
+      item_image: req.body.item_image,
+    }, ['id', 'title', 'description', 'price', 'item_image'])
+    .then((result) => {
+      res.send(result[0]);
+    })
+    .catch((err)=>{
+      res.send(err);
+    });
+});
 
-// router.post('/', (req,res, next) => {
+
+// router.patch('/:id/', (req, res, next) => {
+//   const { title, description, price, item_image } = req.body;
+//   const newPost = { title, description, price, item_image };
 //   knex('classifieds')
-//     .insert({
-//       title: req.body.title,
-//       description: req.body.description,
-//       price: req.body.price,
-//       item_image: req.body.item_image,
-//     }, ['id', 'title', 'description', 'price', 'item_image'])
+//     .where('id', req.params.id)
+//     .update(newPost, '*')
 //     .then((result) => {
-//       console.log("RESULT", result[0]);
+//       delete result[0].created_at;
+//       delete result[0].updated_at;
 //       res.send(result[0]);
-//     })
-//     .catch((err)=>{
-//       res.send(err);
 //     });
 // });
-
-
-router.post('/', (req, res, next) => {
-  const { title, description, price, item_image } = req.body;
-  const newPost = { title, description, price, item_image };
-  knex('classifieds')
-    .insert(newPost, '*')
-    .then((result) => {
-      delete result[0].created_at;
-      delete result[0].updated_at;
-      res.send(result[0]);
-    });
-});
-
-router.patch('/:id/', (req, res, next) => {
-  const { title, description, price, item_image } = req.body;
-  const newPost = { title, description, price, item_image };
-  knex('classifieds')
-    .where('id', req.params.id)
-    .update(newPost, '*')
-    .then((result) => {
-      delete result[0].created_at;
-      delete result[0].updated_at;
-      res.send(result[0]);
-    });
-});
 
 router.delete('/:id/', (req, res, next) => {
   knex('classifieds')
@@ -111,19 +77,5 @@ router.delete('/:id/', (req, res, next) => {
         });
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 module.exports = router;

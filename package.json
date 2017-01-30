@@ -4,7 +4,8 @@
   "main": "server.js",
   "license": "MIT",
   "scripts": {
-    "start": "node server.js",
+    "knex": "knex",
+    "start": "nodemon server.js",
     "test": "mocha"
   },
   "keywords": [],
